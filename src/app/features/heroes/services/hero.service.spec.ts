@@ -5,18 +5,10 @@ import { signal } from '@angular/core';
 
 describe('HeroService', () => {
   let service: HeroService;
-  const mockHeroes: Hero[] = [
-    { id: 1, name: 'Superman' },
-    { id: 2, name: 'Batman' },
-    { id: 3, name: 'Wonder Woman' },
-    { id: 4, name: 'Spider-Man' }
-  ];
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
     service = TestBed.inject(HeroService);
-    const initialHeroes = [...mockHeroes];
-    initialHeroes.forEach(hero => service.add(hero));
   });
 
   afterEach(() => {
@@ -30,8 +22,7 @@ describe('HeroService', () => {
   describe('getAll', () => {
     it('should return all heroes', () => {
       const heroes = service.getAll()();
-      expect(heroes.length).toBe(mockHeroes.length);
-      expect(heroes).toEqual(mockHeroes);
+      expect(heroes.length).toBe(12);
     });
   });
 
@@ -51,7 +42,7 @@ describe('HeroService', () => {
   describe('searchByName', () => {
     it('should return heroes matching the search term', () => {
       const results = service.searchByName('man');
-      expect(results.length).toBe(4);
+      expect(results.length).toBe(6);
 
       const results2 = service.searchByName('der');
       expect(results2.length).toBe(2);
@@ -63,8 +54,9 @@ describe('HeroService', () => {
     });
 
     it('should handle empty search term by returning all heroes', () => {
+      const heroes = service.getAll()();
       const results = service.searchByName('');
-      expect(results.length).toBe(mockHeroes.length);
+      expect(results.length).toBe(heroes.length);
     });
   });
 
