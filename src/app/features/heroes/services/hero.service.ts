@@ -25,7 +25,7 @@ export class HeroService {
 
 
   public add(hero: Hero): void {
-    const newList = [ ...this.heroes(), { ...hero, id: Date.now() } ];
+    const newList = [ ...this.heroes(), hero ];
     this.heroes.set(newList);
   }
 
