@@ -1,12 +1,13 @@
 import { Injectable, Signal, signal } from '@angular/core';
 import { Hero } from '../../../common/interfaces/hero.model';
+import { seedHeroes } from './seed-heroes';
 
 
 @Injectable({
   providedIn: 'root',
 })
 export class HeroService {
-  private heroes = signal<Hero[]>([]);
+  private heroes = signal<Hero[]>(seedHeroes);
 
 
   public getAll(): Signal<Hero[]> {
