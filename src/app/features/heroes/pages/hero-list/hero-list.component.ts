@@ -57,6 +57,8 @@ export class HeroListComponent implements AfterViewInit {
 
 
   ngAfterViewInit(): void {
+    console.log(this.allHeroes());
+    
     this.paginator()!.page.subscribe((e) => {
       this.pageIndex.set(e.pageIndex);
     });
