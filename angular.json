@@ -95,7 +95,10 @@
               "@angular/material/prebuilt-themes/azure-blue.css",
               "src/styles.scss"
             ],
-            "scripts": []
+            "scripts": [],
+            "codeCoverageExclude": [
+              "src/app/features/heroes/heroes.routes.ts"
+            ]
           }
         }
       }
