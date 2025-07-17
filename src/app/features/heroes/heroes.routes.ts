@@ -7,7 +7,7 @@ export const heroRoutes: Routes = [
       {
         path: 'list',
         loadComponent: () =>
-          import('./pages/heero-list/hero-list.component').then(m => m.HeroListComponent),
+          import('./pages/hero-list/hero-list.component').then(m => m.HeroListComponent),
       },
       {
         path: 'form',

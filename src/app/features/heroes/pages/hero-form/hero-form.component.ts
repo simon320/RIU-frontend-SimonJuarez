@@ -11,6 +11,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { HeroService } from '../../services/hero.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Hero } from '../../../../common/interfaces/hero.model';
+import { LoadingService } from '../../../../core/services/loading.service';
 
 @Component({
   selector: 'app-hero-form',
@@ -26,6 +27,7 @@ import { Hero } from '../../../../common/interfaces/hero.model';
   templateUrl: './hero-form.component.html',
 })
 export class HeroFormComponent implements OnInit {
+  private loadingService = inject(LoadingService);
   private heroService = inject(HeroService);
   private route = inject(ActivatedRoute);
   private snack = inject(MatSnackBar);
@@ -72,6 +74,7 @@ export class HeroFormComponent implements OnInit {
   public submitForm(): void {
     const hero = this.heroForm.value as Hero;
     if (this.heroForm.valid) {
+      this.loadingService.show();
 
       if (this.isEditMode()) {
         this.heroService.update(hero);
@@ -83,7 +86,10 @@ export class HeroFormComponent implements OnInit {
         this.openSnack('Héroe creado con éxito');
       }
 
-      this.router.navigate(['/list']);
+      setTimeout(()=> {
+        this.loadingService.hide();
+        this.router.navigate(['/list']);
+      }, 1500 );
     }
   }
 
