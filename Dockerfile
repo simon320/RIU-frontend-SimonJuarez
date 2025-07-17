@@ -13,7 +13,7 @@ RUN npm run build -- --configuration production
 
 FROM nginx:alpine
 
-COPY --from=build /app/dist/riu-frontend-simon-juarez /usr/share/nginx/html
+COPY --from=build /app/dist/riu-frontend-simon-juarez/browser /usr/share/nginx/html
 
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 
