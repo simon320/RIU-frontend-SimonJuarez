@@ -1,59 +1,65 @@
-# RIUFrontendSimonJuarez
+# 🚀 Mindata Frontend Challenge – Hero Management App
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.1.5.
+Este proyecto es una solución al challenge técnico solicitado por Mindata, desarrollado con Angular 19, siguiendo las últimas recomendaciones del framework (standalone components, signals API, inject API, lazy loading) y prácticas de desarrollo profesional.
 
-## Development server
+---
 
-To start a local development server, run:
+## 🧱 Tecnologías
 
-```bash
-ng serve
-```
+- **Angular 19** (standalone + signals)
+- **Angular Material**
+- **RxJS**
+- **Karma + Jasmine** (coverage 100%)
+- **Docker**
+- **TypeScript**
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+---
 
-## Code scaffolding
+## ⚙️ Features implementadas
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+### 🧩 Arquitectura
 
-```bash
-ng generate component component-name
-```
+- ✅ Estructura modular, standalone, limpia y escalable
+- ✅ Lazy loading por rutas
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+### 🦸 Gestión de héroes
 
-```bash
-ng generate --help
-```
+- ✅ Listado con paginación (`MatPaginator`)
+- ✅ Filtrado por nombre en tiempo real
+- ✅ Creación y edición con formulario reactivo (`ReactiveForms`)
+- ✅ Redirección si no existe el héroe a editar
+- ✅ Confirmación con `MatDialog` antes de eliminar
+- ✅ Snackbars de feedback tras crear, editar o borrar
+- ✅ Todos los textos formateados en mayúscula usando una directiva personalizada
 
-## Building
-
-To build the project run:
-
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
+### 🧪 Testing
 
 ```bash
-ng test
+npm run test:coverage
 ```
+- ✅ 100% de cobertura de código.
+- ✅ Tests unitarios con **Karma + Jasmine**
 
-## Running end-to-end tests
+### 💡 Experiencia de usuario
 
-For end-to-end (e2e) testing, run:
+- ✅ Carga simulada al crear o editar héroe (`setTimeout`)
+- ✅ Servicio `LoadingService` para mostrar/hidear un loading global
+- ✅ Interceptor HTTP para activar automáticamente loading al detectar peticiones. ( se creo e implemento, pero al no haber peticiones HTTP reales se usa el LoadingService directamente en los metodos donde se necesita).
 
-```bash
-ng e2e
-```
+### 🛠️ Docker
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+Dockerfile multi-stage y NGINX para producción:
 
-## Additional Resources
+```Dockerfile
+# Etapa 1: Build de Angular
+FROM node:20-alpine as build
+WORKDIR /app
+COPY package*.json ./
+RUN npm install
+COPY . .
+RUN npm run build -- --output-path=dist
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+# Etapa 2: NGINX para servir la app
+FROM nginx:alpine
+COPY --from=build /app/dist /usr/share/nginx/html
+COPY ./nginx.conf /etc/nginx/conf.d/default.conf
