@@ -1,6 +1,7 @@
 import { Injectable, Signal, signal } from '@angular/core';
-import { Hero } from '../../../common/interfaces/hero.model';
+
 import { seedHeroes } from './seed-heroes';
+import { Hero } from '../../../common/interfaces/hero.model';
 
 
 @Injectable({
