@@ -12,6 +12,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatPaginator, MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 
 import { HeroService } from '../../services/hero.service';
+import { LoadingService } from '../../../../core/services/loading.service';
 import { ConfirmDialogComponent } from '../../../../common/components/confirm-dialog/confirm-dialog.component';
 
 @Component({
@@ -30,10 +31,11 @@ import { ConfirmDialogComponent } from '../../../../common/components/confirm-di
   ]
 })
 export class HeroListComponent implements AfterViewInit {
+  public paginator = viewChild<MatPaginator>(MatPaginator);
+  private loadingService = inject(LoadingService);
   private heroService = inject(HeroService);
   private snack = inject(MatSnackBar);
   private dialog = inject(MatDialog);
-  public paginator = viewChild<MatPaginator>(MatPaginator);
 
   private pageSize = 5;
   private filter = signal('');
@@ -55,6 +57,8 @@ export class HeroListComponent implements AfterViewInit {
 
 
   ngAfterViewInit(): void {
+    console.log(this.allHeroes());
+    
     this.paginator()!.page.subscribe((e) => {
       this.pageIndex.set(e.pageIndex);
     });
@@ -78,8 +82,12 @@ export class HeroListComponent implements AfterViewInit {
       data: { message: '¿Estás seguro que querés eliminar este héroe?' },
     }).afterClosed().subscribe((confirmed: boolean) => {
       if (confirmed) {
-        this.heroService.delete(id);
-        this.openSnack('Héroe eliminado con éxito');
+        this.loadingService.show();
+        setTimeout(()=> {
+          this.heroService.delete(id);
+          this.openSnack('Héroe eliminado con éxito');
+          this.loadingService.hide();
+        }, 1500 );
       }
     });
   }
