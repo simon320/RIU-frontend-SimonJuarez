@@ -12,6 +12,7 @@ import { HeroService } from '../../services/hero.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Hero } from '../../../../common/interfaces/hero.model';
 import { LoadingService } from '../../../../core/services/loading.service';
+import { UppercaseDirective } from '../../../../common/directives/uppercase.directive';
 
 @Component({
   selector: 'app-hero-form',
@@ -23,6 +24,7 @@ import { LoadingService } from '../../../../core/services/loading.service';
     MatInputModule,
     MatButtonModule,
     MatCardModule,
+    UppercaseDirective
   ],
   templateUrl: './hero-form.component.html',
 })
