@@ -1,0 +1,40 @@
+<div class="container">
+    <mat-form-field appearance="outline">
+        <mat-label>Filtrar por nombre</mat-label>
+        <input matInput (input)="handleInput($event)" />
+    </mat-form-field>
+
+    <button mat-raised-button color="primary" [routerLink]="['/heroes/create']">
+        Añadir Héroe
+    </button>
+
+    <table mat-table [dataSource]="filteredHeroes()" class="mat-elevation-z8">
+        <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef> Nombre </th>
+            <td mat-cell *matCellDef="let hero"> {{ hero.name }} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="actions">
+            <th mat-header-cell *matHeaderCellDef class="col-actions"> Acciones </th>
+            <td mat-cell *matCellDef="let hero" class="col-actions">
+                <button mat-icon-button color="accent" [routerLink]="['/heroes/edit', hero.id]">
+                    <mat-icon>edit</mat-icon>
+                </button>
+                <button mat-icon-button color="warn" (click)="deleteHero(hero.id)">
+                    <mat-icon>delete</mat-icon>
+                </button>
+            </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="['name', 'actions']"></tr>
+        <tr mat-row *matRowDef="let row; columns: ['name', 'actions']"></tr>
+    </table>
+
+    <mat-paginator
+        [length]="allHeroes().length"
+        [pageSize]="5"
+        [pageSizeOptions]="[5]"
+        (page)="onPageChange($event)"
+        showFirstLastButtons
+    ></mat-paginator>
+</div>
