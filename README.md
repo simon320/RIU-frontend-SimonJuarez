@@ -50,8 +50,19 @@ npm run test:coverage
 
 Dockerfile multi-stage y NGINX para producción:
 
+```bash
+# 1. Construir la imagen
+npm run docker:build
+
+# 2. Ejecutar el contenedor
+npm run docker:run
+
+# 3. Ir al navegador:
+# http://localhost:8080
+```
+
+
 ```Dockerfile
-# Etapa 1: Build de Angular
 FROM node:20-alpine as build
 WORKDIR /app
 COPY package*.json ./
@@ -59,7 +70,6 @@ RUN npm install
 COPY . .
 RUN npm run build -- --output-path=dist
 
-# Etapa 2: NGINX para servir la app
 FROM nginx:alpine
 COPY --from=build /app/dist /usr/share/nginx/html
 COPY ./nginx.conf /etc/nginx/conf.d/default.conf
