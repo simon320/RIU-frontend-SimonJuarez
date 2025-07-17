@@ -30,10 +30,10 @@ import { ConfirmDialogComponent } from '../../../../common/components/confirm-di
   ]
 })
 export class HeroListComponent implements AfterViewInit {
+  public paginator = viewChild<MatPaginator>(MatPaginator);
   private heroService = inject(HeroService);
   private snack = inject(MatSnackBar);
   private dialog = inject(MatDialog);
-  public paginator = viewChild<MatPaginator>(MatPaginator);
 
   private pageSize = 5;
   private filter = signal('');
