@@ -2,7 +2,7 @@ import { of } from 'rxjs';
 import { By } from '@angular/platform-browser';
 import { provideRouter } from '@angular/router';
 import { DebugElement, signal } from '@angular/core';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -69,17 +69,18 @@ describe('HeroListComponent', () => {
         expect(filtered.some(h => h.name === 'Batman')).toBeFalse();
     });
 
-    it('should delete a hero and show snackbar when confirmed', () => {
+    it('should delete a hero and show snackbar when confirmed', fakeAsync(() => {
         const heroIdToDelete = 2;
 
         component.deleteHero(heroIdToDelete);
         fixture.detectChanges();
 
+        tick(1500);
         expect(heroServiceMock.delete).toHaveBeenCalledWith(heroIdToDelete);
         expect(snackBarMock.open).toHaveBeenCalledWith('Héroe eliminado con éxito', 'Cerrar', {
             duration: 2500
         });
-    });
+    }));
 
     it('should update the page index when page changes', () => {
         expect(component['pageIndex']()).toBe(0);

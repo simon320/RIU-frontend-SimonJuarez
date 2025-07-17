@@ -1,7 +1,8 @@
-import { TestBed } from '@angular/core/testing';
-import { HeroService } from './hero.service';
-import { Hero } from '../../../common/interfaces/hero.model';
 import { signal } from '@angular/core';
+import { HeroService } from './hero.service';
+import { TestBed } from '@angular/core/testing';
+
+import { Hero } from '../../../common/interfaces/hero.model';
 
 describe('HeroService', () => {
   let service: HeroService;

@@ -1,8 +1,8 @@
 import { ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
 
 import { HeroService } from '../../services/hero.service';
 import { HeroFormComponent } from './hero-form.component';
@@ -61,16 +61,17 @@ describe('HeroFormComponent', () => {
         expect(component.isEditMode()).toBeFalse();
     });
 
-    it('should add a new hero and redirect when form is valid', () => {
+    it('should add a new hero and redirect when form is valid', fakeAsync(() => {
         component.heroForm.setValue({ id: 111, name: 'Thor', power: 'Rayo' });
         component.submitForm();
 
         expect(heroServiceMock.add).toHaveBeenCalledWith(jasmine.objectContaining({ name: 'Thor' }));
         expect(snackBarMock.open).toHaveBeenCalledWith('Héroe creado con éxito', 'Cerrar', { duration: 2500 });
+        tick(1500);
         expect(routerMock.navigate).toHaveBeenCalledWith(['/list']);
-    });
+    }));
 
-    it('should patch form and update hero in edit mode', () => {
+    it('should patch form and update hero in edit mode', fakeAsync(() => {
         const route = TestBed.inject(ActivatedRoute);
         spyOn(route.snapshot.paramMap, 'get').and.returnValue('123');
         heroServiceMock.getById.and.returnValue(mockHero);
@@ -85,8 +86,9 @@ describe('HeroFormComponent', () => {
 
         expect(heroServiceMock.update).toHaveBeenCalledWith(mockHero);
         expect(snackBarMock.open).toHaveBeenCalledWith('Héroe actualizado con éxito', 'Cerrar', { duration: 2500 });
+        tick(1500);
         expect(routerMock.navigate).toHaveBeenCalledWith(['/list']);
-    });
+    }));
 
     it('should redirect to list when not finding a hero with that id', () => {
         const route = TestBed.inject(ActivatedRoute);
